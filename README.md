@@ -103,7 +103,11 @@ GET /api/aggregator/aggregate
 ### Example response
 
 ```json 
-{ "productId": "123", "market": "NL", "product": { "productId": "123", "name": "Some Product", "description": "description", "specs": "specification" }, "price": { "status": "AVAILABLE", "productId": "123", "market": "NL", "basePrice": "100", "discount": "10", "finalPrice": "90" }, "availability": { "status": "AVAILABLE", "productId": "123", "stockLevel": 10, "warehouseLocation": "Poznan", "expectedDelivery": "3 days" }, "customerContext": { "status": "AVAILABLE", "customerId": "customer-1", "customerSegment": "customer segment", "customerPrefs": "prefs" } }
+{ "productId": "123", 
+  "product": { "productId": "123", "name": "Some Product", "description": "description", "specs": "specification" }, 
+  "price": { "status": "AVAILABLE", "productId": "123", "market": "nl-NL", "basePrice": "100", "discount": "10", "finalPrice": "90" }, 
+  "availability": { "status": "AVAILABLE", "productId": "123", "stockLevel": 10, "warehouseLocation": "Poznan", "expectedDelivery": "3 days" }, 
+  "customerContext": { "status": "AVAILABLE", "customerId": "customer-1", "customerSegment": "customer segment", "customerPrefs": "prefs" } }
 ```
 
 If a downstream service is unavailable, the corresponding DTO is returned with an `UNAVAILABLE` status where applicable.
@@ -127,7 +131,9 @@ This keeps responsibilities separated and makes the project easier to evolve.
 
 The aggregator calls downstream services asynchronously using `CompletableFuture`.
 
-This reduces total response time because product, price, availability, and customer context can be fetched in parallel instead of sequentially.
+This reduces total response time because price, availability, and customer context can be fetched in parallel instead of sequentially.
+
+Product is fetched sequentially because it is the only mandatory downstream service.
 
 **Trade-off:** asynchronous code needs more careful exception handling because exceptions are wrapped by `CompletableFuture`.
 
