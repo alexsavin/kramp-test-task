@@ -1,0 +1,19 @@
+product-info-aggregator:
+  timeout-ms: 200
+
+clients:
+  product-catalog:
+    latency-ms: 50
+    reliability: 999
+
+  product-price:
+    latency-ms: 80
+    reliability: 995
+
+  availability:
+    latency-ms: 100
+    reliability: 980
+
+  customer-context:
+    latency-ms: 60
+    reliability: 990
