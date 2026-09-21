@@ -5,9 +5,7 @@ import com.kramp.Product;
 import com.kramp.ProductAggregated;
 import com.kramp.clients.*;
 import com.kramp.datasource.DataSource;
-import lombok.extern.log4j.Log4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +20,8 @@ import java.util.concurrent.TimeoutException;
 import java.util.function.Consumer;
 
 @Service
+@Slf4j
 public class ProductInfoAggregatorService {
-
-    private static final Logger log = LoggerFactory.getLogger(ProductInfoAggregatorService.class);
 
     private final ProductCatalogClient productCatalogClient;
     private final ProductPriceClient productPriceClient;

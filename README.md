@@ -249,7 +249,7 @@ The API could return a standardized error response for validation and unexpected
 For example:
 
 ```json 
-{ "code": "VALIDATION_ERROR", "message": "Invalid request", "details": }
+{ "code": "VALIDATION_ERROR", "message": "Invalid request", "details": "" }
 ```
 
 ### 7. Make required and optional dependencies explicit
@@ -299,28 +299,29 @@ The new client would inherit the same simulated behavior as the other clients.
 Conceptually:
 
 ```java 
-@Component public class RelatedProductsClient extends AbstractClient<List, String> {
+@Component 
+public class RelatedProductsClient extends AbstractClient<List, String> {
 
-public RelatedProductsClient(
-@Value("${clients.related-products.latency-ms:0}") int latency,
-@Value("${clients.related-products.reliability:1000}") int reliability
-) {
-super(latency, reliability);
-}
+    public RelatedProductsClient(
+        @Value("${clients.related-products.latency-ms:0}") int latency,
+        @Value("${clients.related-products.reliability:1000}") int reliability) {
+        super(latency, reliability);
+    }
 
-@Override
-protected Optional<List<RelatedProduct>> fetchInternal(String productId) {
-return Optional.of(List.of(
-new RelatedProduct("related-1", "Related product 1"),
-new RelatedProduct("related-2", "Related product 2")
-));
+    @Override
+    protected Optional<List<RelatedProduct>> fetchInternal(String productId) {
+        return Optional.of(List.of(
+                new RelatedProduct("related-1", "Related product 1"),
+                new RelatedProduct("related-2", "Related product 2")
+        ));
+    }
 }
 ```
 
 The aggregator would then add another future:
 
 ```java 
-buildFuture(relatedProductsClient, productId, productAggregated::setRelatedProducts)
+buildFuture(relatedProductsClient, productId, productAggregated::setRelatedProducts);
 ```
 
 ### Should Related Products be required or optional?
